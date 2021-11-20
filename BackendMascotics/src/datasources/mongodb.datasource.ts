@@ -4,9 +4,9 @@ import {juggler} from '@loopback/repository';
 const config = {
   name: 'mongodb',
   connector: 'mongodb',
-  url: '',
+  url: 'mongodb+srv://dbGus:<>@mongogusfree.ffm2c.mongodb.net/mascoticsdb?retryWrites=true&w=majority',
   host: '',
-  port: 0,
+  port: 0,//si llega a perdirse el puerto, mongodb usa 27017
   user: '',
   password: '',
   database: '',
