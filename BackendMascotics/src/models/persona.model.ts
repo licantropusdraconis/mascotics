@@ -1,4 +1,4 @@
-import {Entity, model, property, hasMany} from '@loopback/repository';
+import {Entity, hasMany, model, property} from '@loopback/repository';
 import {MedicoVeterinario} from './medico-veterinario.model';
 import {PropietarioMascota} from './propietario-mascota.model';
 
@@ -40,6 +40,18 @@ export class Persona extends Entity {
     required: true,
   })
   Telefono: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  Correo: string;
+
+  @property({
+    type: 'string',
+    required: false,
+  })
+  Clave: string;
 
   @hasMany(() => MedicoVeterinario)
   medicosVeterinarios: MedicoVeterinario[];

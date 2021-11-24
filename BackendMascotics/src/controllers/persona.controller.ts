@@ -1,30 +1,29 @@
+import {service} from '@loopback/core';
 import {
   Count,
   CountSchema,
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
-  put,
-  del,
-  requestBody,
-  response,
+  del, get,
+  getModelSchemaRef, param, patch, post, put, requestBody,
+  response
 } from '@loopback/rest';
 import {Persona} from '../models';
 import {PersonaRepository} from '../repositories';
+import {AutenticacionService} from '../services';
+const fetch = require('node-fetch');
 
 export class PersonaController {
   constructor(
     @repository(PersonaRepository)
-    public personaRepository : PersonaRepository,
-  ) {}
+    public personaRepository: PersonaRepository,
+    @service(AutenticacionService)
+    public servicioAutenticacion: AutenticacionService
+  ) { }
 
   @post('/persona')
   @response(200, {
@@ -44,7 +43,20 @@ export class PersonaController {
     })
     persona: Omit<Persona, 'id'>,
   ): Promise<Persona> {
-    return this.personaRepository.create(persona);
+    let clave = this.servicioAutenticacion.GenerarClave();
+    let claveCifrada = this.servicioAutenticacion.CifrarClave(clave);
+    persona.Clave = claveCifrada;
+    let p = await this.personaRepository.create(persona);
+    //Notificar al usuario (usar paquete node-fetch para llamados asíncronos)
+    let destino = persona.Correo;//ojo, no se había creado la propiedad para el email en el modelo persona.model.ts, como es necesaria se ajusta el modelo
+    let asunto = `Registro en la plataforma`;
+    let contenido = `Hola ${persona.Nombres} ${persona.Apellidos}, se ha creado su usuario con los siguientes datos:\n telefono es: ${persona.Telefono},\n tipo documento de identificacion es: ${persona.TipoDocIdentificacion},\n dirección: ${persona.Direccion}`;
+    fetch(`http://127.0.0.1:5000/envio-email?destinatario=${destino}&asunto=${asunto}&mensaje=${contenido}`)
+      .then((data: any) => {
+        console.log(data);
+      })
+    return p;
+    //return this.personaRepository.create(persona);
   }
 
   @get('/persona/count')
