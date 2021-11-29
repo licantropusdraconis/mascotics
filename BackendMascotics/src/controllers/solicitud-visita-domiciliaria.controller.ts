@@ -1,3 +1,4 @@
+import { authenticate } from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -20,6 +21,7 @@ import {
 import {SolicitudVisitaDomiciliaria} from '../models';
 import {SolicitudVisitaDomiciliariaRepository} from '../repositories';
 
+@authenticate()//protección de acceso
 export class SolicitudVisitaDomiciliariaController {
   constructor(
     @repository(SolicitudVisitaDomiciliariaRepository)
@@ -47,6 +49,7 @@ export class SolicitudVisitaDomiciliariaController {
     return this.solicitudVisitaDomiciliariaRepository.create(solicitudVisitaDomiciliaria);
   }
 
+  @authenticate.skip()//saltar la protección en esta ruta
   @get('/solicitud-visita-domiciliaria/count')
   @response(200, {
     description: 'SolicitudVisitaDomiciliaria model count',
@@ -58,6 +61,7 @@ export class SolicitudVisitaDomiciliariaController {
     return this.solicitudVisitaDomiciliariaRepository.count(where);
   }
 
+  @authenticate.skip()//saltar la protección en esta ruta
   @get('/solicitud-visita-domiciliaria')
   @response(200, {
     description: 'Array of SolicitudVisitaDomiciliaria model instances',
@@ -95,6 +99,7 @@ export class SolicitudVisitaDomiciliariaController {
     return this.solicitudVisitaDomiciliariaRepository.updateAll(solicitudVisitaDomiciliaria, where);
   }
 
+  @authenticate.skip()//saltar la protección en esta ruta
   @get('/solicitud-visita-domiciliaria/{id}')
   @response(200, {
     description: 'SolicitudVisitaDomiciliaria model instance',

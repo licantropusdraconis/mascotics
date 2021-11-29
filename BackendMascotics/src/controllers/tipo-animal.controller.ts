@@ -1,3 +1,4 @@
+import { authenticate } from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -20,6 +21,7 @@ import {
 import {TipoAnimal} from '../models';
 import {TipoAnimalRepository} from '../repositories';
 
+@authenticate()//protección de acceso
 export class TipoAnimalController {
   constructor(
     @repository(TipoAnimalRepository)
@@ -47,6 +49,7 @@ export class TipoAnimalController {
     return this.tipoAnimalRepository.create(tipoAnimal);
   }
 
+  @authenticate.skip()//saltar la protección en esta ruta
   @get('/tipo-animal/count')
   @response(200, {
     description: 'TipoAnimal model count',
@@ -58,6 +61,7 @@ export class TipoAnimalController {
     return this.tipoAnimalRepository.count(where);
   }
 
+  @authenticate.skip()//saltar la protección en esta ruta
   @get('/tipo-animal')
   @response(200, {
     description: 'Array of TipoAnimal model instances',
@@ -95,6 +99,7 @@ export class TipoAnimalController {
     return this.tipoAnimalRepository.updateAll(tipoAnimal, where);
   }
 
+  @authenticate.skip()//saltar la protección en esta ruta
   @get('/tipo-animal/{id}')
   @response(200, {
     description: 'TipoAnimal model instance',

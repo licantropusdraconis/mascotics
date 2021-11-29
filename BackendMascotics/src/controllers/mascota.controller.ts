@@ -1,3 +1,4 @@
+import { authenticate } from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -20,6 +21,7 @@ import {
 import {Mascota} from '../models';
 import {MascotaRepository} from '../repositories';
 
+@authenticate()//protección de acceso
 export class MascotaController {
   constructor(
     @repository(MascotaRepository)
@@ -47,6 +49,7 @@ export class MascotaController {
     return this.mascotaRepository.create(mascota);
   }
 
+  @authenticate.skip()//saltar la protección en esta ruta
   @get('/mascota/count')
   @response(200, {
     description: 'Mascota model count',
@@ -58,6 +61,7 @@ export class MascotaController {
     return this.mascotaRepository.count(where);
   }
 
+  @authenticate.skip()//saltar la protección en esta ruta
   @get('/mascota')
   @response(200, {
     description: 'Array of Mascota model instances',
@@ -95,6 +99,7 @@ export class MascotaController {
     return this.mascotaRepository.updateAll(mascota, where);
   }
 
+  @authenticate.skip()//saltar la protección en esta ruta
   @get('/mascota/{id}')
   @response(200, {
     description: 'Mascota model instance',

@@ -6,3 +6,4 @@ export * from './solicitud-visita-domiciliaria.model';
 export * from './registro-visita-domiciliaria.model';
 export * from './propietario-mascota.model';
 export * from './medico-veterinario.model';
+export * from './credenciales.model';

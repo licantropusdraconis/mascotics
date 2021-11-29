@@ -1,3 +1,4 @@
+import { authenticate } from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -20,6 +21,7 @@ import {
 import {EmpresaVeterinaria} from '../models';
 import {EmpresaVeterinariaRepository} from '../repositories';
 
+@authenticate("admin")//se protege el acceso
 export class EmpresaVeterinariaController {
   constructor(
     @repository(EmpresaVeterinariaRepository)
@@ -47,6 +49,7 @@ export class EmpresaVeterinariaController {
     return this.empresaVeterinariaRepository.create(empresaVeterinaria);
   }
 
+  @authenticate.skip()//saltar la protección en esta ruta
   @get('/empresa-veterinaria/count')
   @response(200, {
     description: 'EmpresaVeterinaria model count',
@@ -58,6 +61,7 @@ export class EmpresaVeterinariaController {
     return this.empresaVeterinariaRepository.count(where);
   }
 
+  @authenticate.skip()//saltar la protección en esta ruta
   @get('/empresa-veterinaria')
   @response(200, {
     description: 'Array of EmpresaVeterinaria model instances',

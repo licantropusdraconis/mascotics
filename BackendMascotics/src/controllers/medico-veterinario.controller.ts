@@ -1,3 +1,4 @@
+import { authenticate } from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -20,6 +21,7 @@ import {
 import {MedicoVeterinario} from '../models';
 import {MedicoVeterinarioRepository} from '../repositories';
 
+@authenticate()//protección de acceso
 export class MedicoVeterinarioController {
   constructor(
     @repository(MedicoVeterinarioRepository)
@@ -47,6 +49,7 @@ export class MedicoVeterinarioController {
     return this.medicoVeterinarioRepository.create(medicoVeterinario);
   }
 
+  @authenticate.skip()//saltar la protección en esta ruta
   @get('/medico-veterinario/count')
   @response(200, {
     description: 'MedicoVeterinario model count',
@@ -58,6 +61,7 @@ export class MedicoVeterinarioController {
     return this.medicoVeterinarioRepository.count(where);
   }
 
+  @authenticate.skip()//saltar la protección en esta ruta
   @get('/medico-veterinario')
   @response(200, {
     description: 'Array of MedicoVeterinario model instances',
@@ -95,6 +99,7 @@ export class MedicoVeterinarioController {
     return this.medicoVeterinarioRepository.updateAll(medicoVeterinario, where);
   }
 
+  @authenticate.skip()//saltar la protección en esta ruta
   @get('/medico-veterinario/{id}')
   @response(200, {
     description: 'MedicoVeterinario model instance',
