@@ -14,12 +14,6 @@ export class SolicitudVisitaDomiciliaria extends Entity {
   id?: string;
 
   @property({
-    type: 'number',
-    required: true,
-  })
-  idPropietarioMascota: number;
-
-  @property({
     type: 'string',
     required: true,
   })

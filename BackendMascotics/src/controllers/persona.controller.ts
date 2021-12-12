@@ -28,6 +28,7 @@ export class PersonaController {
     public servicioAutenticacion: AutenticacionService
   ) { }
 
+  @authenticate.skip()//saltar la protección en esta ruta
   @post('/identificar-persona',{
     responses:{
       '200':{

@@ -42,11 +42,6 @@ export class Mascota extends Entity {
   })
   Raza: string;
 
-  @property({
-    type: 'string',
-  })
-  solicitudVisitaDomiciliariaId?: string;
-
   @belongsTo(() => TipoAnimal)
   tipoAnimalId: string;
 
