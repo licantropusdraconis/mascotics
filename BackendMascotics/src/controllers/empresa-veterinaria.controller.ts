@@ -99,6 +99,7 @@ export class EmpresaVeterinariaController {
     return this.empresaVeterinariaRepository.updateAll(empresaVeterinaria, where);
   }
 
+  @authenticate.skip()//saltar la protección en esta ruta
   @get('/empresa-veterinaria/{id}')
   @response(200, {
     description: 'EmpresaVeterinaria model instance',
